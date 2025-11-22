@@ -1,14 +1,11 @@
-import { Sidebar } from "./components/sidebar";
-import { Header } from "./components/header.tsx";
-import { TextEditor } from "./components/editor.tsx";
+import { Index } from "./index.tsx";
+import { FilesProvider } from "./useFiles.tsx";
 
 function App() {
   return (
-    <div className="grid grid-rows-12 grid-cols-12 h-screen">
-      <Sidebar />
-      <Header />
-      <TextEditor />
-    </div>
+    <FilesProvider>
+      <Index></Index>
+    </FilesProvider>
   );
 }
 
