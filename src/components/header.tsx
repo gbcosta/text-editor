@@ -1,7 +1,9 @@
 import { LuFileText } from "react-icons/lu";
 import { FaGithub } from "react-icons/fa";
+import { useActiveFile } from "../useActiveFile";
 
-export const Header = ({ activeFile }: { activeFile: string }) => {
+export const Header = () => {
+  const activeFile = useActiveFile();
   return (
     <header className="flex items-center bg-slate-900 col-span-10 px-8 ">
       <div className="flex gap-8 items-center">
@@ -10,7 +12,7 @@ export const Header = ({ activeFile }: { activeFile: string }) => {
           className="text-white font-bold text-xl p-2 rounded-md focus:ring-indigo-600
                     focus:ring-3 focus:outline-none"
         >
-          {activeFile}
+          {activeFile.getActiveFile()}
         </div>
       </div>
       <div className="grow flex justify-end">

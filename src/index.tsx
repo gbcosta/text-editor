@@ -6,8 +6,6 @@ import { useFiles } from "./useFiles.tsx";
 
 export function Index() {
   const [fileToDelete, setFileToDelete] = useState<string>("");
-  const [activeFile, setActiveFile] = useState<string>("");
-
   const files = useFiles();
 
   useEffect(() => {
@@ -16,12 +14,8 @@ export function Index() {
 
   return (
     <div className="grid grid-rows-12 grid-cols-12 h-screen">
-      <Sidebar
-        setFileToDelete={setFileToDelete}
-        setActiveFile={setActiveFile}
-        activeFile={activeFile}
-      />
-      <Header activeFile={activeFile} />
+      <Sidebar setFileToDelete={setFileToDelete} />
+      <Header />
       <TextEditor />
     </div>
   );

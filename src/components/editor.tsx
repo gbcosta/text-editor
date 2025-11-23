@@ -1,4 +1,4 @@
-import { useCallback, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { createEditor, Editor, Element, Transforms } from "slate";
 import {
   Slate,
@@ -22,6 +22,7 @@ import {
   FaAlignJustify,
 } from "react-icons/fa";
 import { IoCode } from "react-icons/io5";
+import { useActiveFile } from "../useActiveFile";
 
 type TypeElements =
   | "paragraph"
@@ -48,10 +49,9 @@ declare module "slate" {
 const initialValue: Descendant[] = [
   {
     type: "paragraph",
-    children: [{ text: "A line of text in a paragraph." }],
+    children: [{ text: "" }],
   },
 ];
-
 const Paragraph = ({
   props,
   align,
@@ -155,6 +155,8 @@ const CustomEditor = {
 
 export const TextEditor = () => {
   const [editor] = useState(() => withReact(createEditor()));
+  const activeFileContext = useActiveFile();
+
   const renderElement = useCallback((props: RenderElementProps) => {
     switch (props.element.type) {
       case "startAlign":
@@ -174,6 +176,19 @@ export const TextEditor = () => {
     return <Leaf {...props} />;
   }, []);
 
+  const isAnyFileActive =
+    activeFileContext.getActiveFile() != "" ? "" : "hidden";
+
+  useEffect(() => {
+    if (activeFileContext.getJson() != "") {
+      editor.children = JSON.parse(activeFileContext.getJson());
+      editor.onChange();
+    } else {
+      editor.children = initialValue;
+      editor.onChange();
+    }
+  }, [activeFileContext.activeFile]);
+
   return (
     <div className="col-span-10 row-span-11">
       <Slate
@@ -184,9 +199,8 @@ export const TextEditor = () => {
             (op) => "set_selection" !== op.type,
           );
           if (isAstChange) {
-            // Save the value to Local Storage.
             const content = JSON.stringify(value);
-            localStorage.setItem("content", content);
+            activeFileContext.saveJson(content);
           }
         }}
       >
@@ -229,7 +243,7 @@ export const TextEditor = () => {
           </div>
           <Editable
             renderLeaf={renderLeaf}
-            className="grow p-4 m-12 bg-slate-900 text-gray-200"
+            className={`grow p-4 m-12 bg-slate-900 text-gray-200 ${isAnyFileActive}`}
             renderElement={renderElement}
           />
         </div>

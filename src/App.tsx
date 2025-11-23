@@ -1,10 +1,13 @@
 import { Index } from "./index.tsx";
 import { FilesProvider } from "./useFiles.tsx";
+import { ActiveFileProvider } from "./useActiveFile.tsx";
 
 function App() {
   return (
     <FilesProvider>
-      <Index></Index>
+      <ActiveFileProvider>
+        <Index></Index>
+      </ActiveFileProvider>
     </FilesProvider>
   );
 }

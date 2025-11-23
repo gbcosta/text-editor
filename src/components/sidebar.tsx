@@ -1,36 +1,44 @@
-import React, { useState, type Dispatch, type SetStateAction } from "react";
+import React, {
+  useEffect,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import { CiFileOn } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa6";
 import { FiLayers } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useFiles } from "../useFiles";
+import { useActiveFile } from "../useActiveFile";
 
 const File = ({
   name,
   setFileToDelete,
-  setActiveFile,
 }: {
   name: string;
   setFileToDelete: Dispatch<SetStateAction<string>>;
-  setActiveFile: Dispatch<SetStateAction<string>>;
 }) => {
-  const [_name, setName] = useState<string>(name);
+  const activeFileContext = useActiveFile();
+  const [content, setContent] = useState<string>("");
+  const isActive = activeFileContext.getActiveFile() == name;
+  const activeFileClassName = isActive ? "bg-slate-800" : "";
+
+  useEffect(() => {
+    if (isActive) {
+      setContent(activeFileContext.getJson());
+    }
+  }, [activeFileContext.json]);
+
   return (
     <div
-      className="flex gap-2 items-center hover:bg-slate-800 p-2 rounded-md"
+      className={`flex gap-2 items-center hover:bg-slate-800 p-2 rounded-md ${activeFileClassName}`}
       onClick={() => {
-        setActiveFile(_name);
+        activeFileContext.changeActiveFileName(name);
+        activeFileContext.saveJson(content);
       }}
     >
-      <CiFileOn />
-      <input
-        value={_name}
-        onChange={(e) => {
-          if (e.target.value == "") return;
-          setName(e.target.value);
-          setActiveFile(e.target.value);
-        }}
-      />
+      <CiFileOn className="text-xl" />
+      <span>{name}</span>
       <div className="flex gap-2 grow items-end justify-end ">
         <RiDeleteBin6Line
           className="hover:text-red-500 hover:cursor-pointer"
@@ -66,14 +74,12 @@ const Dialog = ({
   isDialogActive,
   setIsDialogActive,
   setFileToDelete,
-  setActiveFile,
 }: {
   isDialogActive: boolean;
   setIsDialogActive: Dispatch<React.SetStateAction<boolean>>;
   setFileToDelete: Dispatch<SetStateAction<string>>;
-  setActiveFile: Dispatch<SetStateAction<string>>;
-  activeFile: string;
 }) => {
+  const activeFileContext = useActiveFile();
   const [value, setValue] = useState<string>("");
   const [warning, setWarning] = useState<boolean>(false);
   const filesContext = useFiles();
@@ -84,17 +90,13 @@ const Dialog = ({
       return;
     }
     filesContext.addFiles(
-      <File
-        name={value}
-        key={value}
-        setFileToDelete={setFileToDelete}
-        setActiveFile={setActiveFile}
-      />,
+      <File name={value} key={value} setFileToDelete={setFileToDelete} />,
     );
     setValue("");
     setIsDialogActive(false);
     setWarning(false);
-    setActiveFile(value);
+    activeFileContext.changeActiveFileName(value);
+    activeFileContext.saveJson("");
   };
 
   return (
@@ -157,12 +159,8 @@ const Dialog = ({
 
 export const Sidebar = ({
   setFileToDelete,
-  setActiveFile,
-  activeFile,
 }: {
   setFileToDelete: Dispatch<SetStateAction<string>>;
-  activeFile: string;
-  setActiveFile: Dispatch<SetStateAction<string>>;
 }) => {
   const filesContext = useFiles();
   const [isDialogActive, setIsDialogActive] = useState<boolean>(false);
@@ -172,8 +170,6 @@ export const Sidebar = ({
         setIsDialogActive={setIsDialogActive}
         isDialogActive={isDialogActive}
         setFileToDelete={setFileToDelete}
-        setActiveFile={setActiveFile}
-        activeFile={activeFile}
       />
       <div className="flex gap-2 items-center">
         <FiLayers className="text-indigo-600 text-2xl" />
