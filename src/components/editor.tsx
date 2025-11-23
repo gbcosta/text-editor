@@ -22,7 +22,7 @@ import {
   FaAlignJustify,
 } from "react-icons/fa";
 import { IoCode } from "react-icons/io5";
-import { useActiveFile } from "../useActiveFile";
+import { useActiveFile } from "../contexts/useActiveFile";
 
 type TypeElements =
   | "paragraph"

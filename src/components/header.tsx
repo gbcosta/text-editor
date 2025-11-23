@@ -1,6 +1,6 @@
 import { LuFileText } from "react-icons/lu";
 import { FaGithub } from "react-icons/fa";
-import { useActiveFile } from "../useActiveFile";
+import { useActiveFile } from "../contexts/useActiveFile";
 
 export const Header = () => {
   const activeFile = useActiveFile();

@@ -8,8 +8,8 @@ import { CiFileOn } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa6";
 import { FiLayers } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useFiles } from "../useFiles";
-import { useActiveFile } from "../useActiveFile";
+import { useFiles } from "../contexts//useFiles";
+import { useActiveFile } from "../contexts/useActiveFile";
 
 const File = ({
   name,

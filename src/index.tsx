@@ -2,7 +2,7 @@ import { Sidebar } from "./components/sidebar";
 import { Header } from "./components/header.tsx";
 import { TextEditor } from "./components/editor.tsx";
 import { useEffect, useState } from "react";
-import { useFiles } from "./useFiles.tsx";
+import { useFiles } from "./contexts/useFiles.tsx";
 
 export function Index() {
   const [fileToDelete, setFileToDelete] = useState<string>("");

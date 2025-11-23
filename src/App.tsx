@@ -1,6 +1,6 @@
 import { Index } from "./index.tsx";
-import { FilesProvider } from "./useFiles.tsx";
-import { ActiveFileProvider } from "./useActiveFile.tsx";
+import { FilesProvider } from "./contexts/useFiles.tsx";
+import { ActiveFileProvider } from "./contexts/useActiveFile.tsx";
 
 function App() {
   return (
