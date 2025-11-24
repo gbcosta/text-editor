@@ -14,7 +14,6 @@ import {
   FaBold,
   FaItalic,
   FaUnderline,
-  FaListOl,
   FaListUl,
   FaAlignLeft,
   FaAlignCenter,
@@ -30,6 +29,7 @@ type TypeElements =
   | "centerAlign"
   | "endAlign"
   | "justifyAlign"
+  | "unorderedList"
   | "code";
 
 type CustomElement = {
@@ -63,6 +63,14 @@ const Paragraph = ({
     <p style={{ textAlign: align }} {...props}>
       {props.children}
     </p>
+  );
+};
+
+const UnorderedList = ({ props }: { props: RenderElementProps }) => {
+  return (
+    <ul className="list-disc px-4" {...props.attributes}>
+      <li>{props.children}</li>
+    </ul>
   );
 };
 
@@ -167,6 +175,8 @@ export const TextEditor = () => {
         return <Paragraph props={props} align="end" />;
       case "justifyAlign":
         return <Paragraph props={props} align="justify" />;
+      case "unorderedList":
+        return <UnorderedList props={props} />;
       default:
         return <DefaultElement {...props} />;
     }
@@ -221,10 +231,7 @@ export const TextEditor = () => {
               </Button>
             </div>
             <div className="flex gap-4 border-r-3 border-r-gray-600 pr-2">
-              <Button typeName="startAlign" editor={editor}>
-                <FaListOl />
-              </Button>
-              <Button typeName="startAlign" editor={editor}>
+              <Button typeName="unorderedList" editor={editor}>
                 <FaListUl />
               </Button>
               <Button typeName="startAlign" editor={editor}>
@@ -243,7 +250,9 @@ export const TextEditor = () => {
           </div>
           <Editable
             renderLeaf={renderLeaf}
-            className={`grow p-4 m-12 bg-slate-900 text-gray-200 ${isAnyFileActive}`}
+            spellCheck
+            autoFocus
+            className={`grow p-8 m-12 bg-slate-900 text-gray-200 ${isAnyFileActive}`}
             renderElement={renderElement}
           />
         </div>
