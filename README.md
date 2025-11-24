@@ -19,7 +19,8 @@ Zenith Editor is a visually appealing, modern, and minimalist text editor interf
 *   **Styling:** Tailwind CSS 
 *   **Icons:** React Icons
 
-<a href="https://zenith-editor-dun.vercel.app/">Website</a>
+<a target="_blank" href="https://zenith-editor-dun.vercel.app/">Website</a>
+<br/>
 <img src="./public/Zenith.png">
 
 ## License
