@@ -19,7 +19,8 @@ Zenith Editor is a visually appealing, modern, and minimalist text editor interf
 *   **Styling:** Tailwind CSS 
 *   **Icons:** React Icons
 
-![Zenith Editor](./public/Zenith.png)
+<img src="./public/Zenith.png" width="700px">
+
 ## License
 
 This project is open source and available under the MIT License.
