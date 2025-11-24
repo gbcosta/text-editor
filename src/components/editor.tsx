@@ -52,6 +52,7 @@ const initialValue: Descendant[] = [
     children: [{ text: "" }],
   },
 ];
+
 const Paragraph = ({
   props,
   align,
@@ -186,10 +187,12 @@ export const TextEditor = () => {
     return <Leaf {...props} />;
   }, []);
 
-  const isAnyFileActive =
-    activeFileContext.getActiveFile() != "" ? "" : "hidden";
+  const [isAnyFileActive, setIsAnyFileActive] = useState("hidden");
 
   useEffect(() => {
+    setIsAnyFileActive(
+      activeFileContext.getActiveFile() != "" ? "none" : "hidden",
+    );
     if (activeFileContext.getJson() != "") {
       editor.children = JSON.parse(activeFileContext.getJson());
       editor.onChange();
@@ -197,7 +200,7 @@ export const TextEditor = () => {
       editor.children = initialValue;
       editor.onChange();
     }
-  }, [activeFileContext.activeFile]);
+  }, [activeFileContext.activeFile, activeFileContext.json]);
 
   return (
     <div className="col-span-10 row-span-11">
